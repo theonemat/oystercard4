@@ -3,6 +3,7 @@ require 'oystercard'
 describe Oystercard do
 
   let(:card) { described_class.new }
+  let(:entry_station) { double(:station) }
 
   it { is_expected.to respond_to(:balance) }
 
@@ -12,7 +13,7 @@ describe Oystercard do
     end
 
     it 'fails if user tries to exceed maximum balance' do
-      max_balance = Oystercard::MAX_BALANCE 
+      max_balance = Oystercard::MAX_BALANCE
       expect{ card.top_up(95) }.to raise_error("Maximum balance of #{max_balance} exceeded")
     end
   end
@@ -37,10 +38,15 @@ describe Oystercard do
   describe '#touch_in' do
     it "changes in_journey to true" do
       card.top_up(2)
-      expect(card.touch_in).to eq true
+      expect(card.touch_in("station")).to eq true
     end
     it "it raises an error when less than £1" do
-      expect { card.touch_in }.to raise_error 'minimum balance required'
+      expect { card.touch_in("tation") }.to raise_error 'minimum balance required'
+    end
+    it "stores entry station" do
+      card.top_up(2)
+      card.touch_in(entry_station)
+      expect(card.entry_station).to include entry_station
     end
   end
 
