@@ -13,6 +13,10 @@ class Oystercard
     @balance
   end
 
+  def deduct(amount)
+    @balance -= amount
+  end
+
   private
   MAX_BALANCE = 90
 
