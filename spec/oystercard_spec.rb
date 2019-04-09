@@ -12,16 +12,22 @@ describe Oystercard do
     end
 
     it 'fails if user tries to exceed maximum balance' do
-      expect{ card.top_up(95) }.to raise_error("Maximum balance of #{Oystercard::MAX_BALANCE} exceeded")
+      max_balance = Oystercard::MAX_BALANCE 
+      expect{ card.top_up(95) }.to raise_error("Maximum balance of #{max_balance} exceeded")
     end
   end
-
+=begin
   describe "#deduct" do
     it "deducts from the balance" do
       expect { card.deduct(10) }.to change{ card.balance }.by(-10)
     end
-  end
 
+    it "deducts the minimum fare" do
+      minimum_fare = Oystercard::MINIMUM_FARE
+      expect { card.deduct( minimum_fare) }.to change { card.balance }.by(-minimum_fare)
+    end
+  end
+=end
   describe '#in_journey?' do
     it "checks if card is in journey" do
       expect(card).not_to be_in_journey
@@ -41,6 +47,10 @@ describe Oystercard do
   describe '#touch_out' do
     it "changes in_journey to false" do
       expect(card.touch_out).to eq false
+    end
+    it 'deducts minimum balance' do
+      minimum_fare = Oystercard::MINIMUM_FARE
+      expect { card.touch_out }.to change { card.balance }.by(-minimum_fare)
     end
   end
 end
