@@ -22,4 +22,21 @@ describe Oystercard do
     end
   end
 
+  describe '#in_journey?' do
+    it "checks if card is in journey" do
+      expect(card).not_to be_in_journey
+    end
+  end
+
+  describe '#touch_in' do
+    it "changes in_journey to true" do
+      expect(card.touch_in).to eq true
+    end
+  end
+
+  describe '#touch_out' do
+    it "changes in_journey to false" do
+      expect(card.touch_out).to eq false
+    end
+  end
 end

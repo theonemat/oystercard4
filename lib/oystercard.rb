@@ -2,6 +2,7 @@ class Oystercard
 
   def initialize
     @balance = 0
+    @status = false
   end
 
   attr_reader :balance
@@ -17,7 +18,20 @@ class Oystercard
     @balance -= amount
   end
 
+  def in_journey?
+    @status
+  end
+
+  def touch_in
+    @status = true
+  end
+
+  def touch_out
+    @status = false
+  end
+
   private
+
   MAX_BALANCE = 90
 
 end
