@@ -23,6 +23,7 @@ class Oystercard
   end
 
   def touch_in
+    raise 'minimum balance required' unless @balance >= MINIMUM_BALANCE
     @status = true
   end
 
@@ -33,5 +34,5 @@ class Oystercard
   private
 
   MAX_BALANCE = 90
-
+  MINIMUM_BALANCE = 1
 end
