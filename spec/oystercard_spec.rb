@@ -30,7 +30,11 @@ describe Oystercard do
 
   describe '#touch_in' do
     it "changes in_journey to true" do
+      card.top_up(2)
       expect(card.touch_in).to eq true
+    end
+    it "it raises an error when less than £1" do
+      expect { card.touch_in }.to raise_error 'minimum balance required'
     end
   end
 
