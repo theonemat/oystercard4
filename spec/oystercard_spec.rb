@@ -3,8 +3,8 @@ require 'oystercard'
 describe Oystercard do
 
   let(:card) { described_class.new }
-  let(:entry_station) { double(:station) }
-  let(:exit_station) { double(:station) }
+  let(:entry_station) { double :station }
+  let(:exit_station) { double :station }
 
   it { is_expected.to respond_to(:balance) }
 
@@ -44,7 +44,7 @@ describe Oystercard do
 
   describe '#touch_in' do
     it "it raises an error when less than £1" do
-      expect { card.touch_in("tation") }.to raise_error 'minimum balance required'
+      expect { card.touch_in(entry_station) }.to raise_error 'minimum balance required'
     end
     it "stores entry station" do
       card.top_up(2)
@@ -55,7 +55,7 @@ describe Oystercard do
 
   describe '#touch_out' do
     it 'deducts minimum balance' do
-      minimum_fare = Oystercard::MINIMUM_FARE
+      minimum_fare = Oystercard::MIN_FARE
       expect { card.touch_out(exit_station) }.to change { card.balance }.by(-minimum_fare)
     end
     it "resets entry station to nil" do
