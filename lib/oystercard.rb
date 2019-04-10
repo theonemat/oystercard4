@@ -32,11 +32,13 @@ class Oystercard
     @entry_station = nil
   end
 
+# should charge for incomplete journey
+
   private
 
   MAX_BALANCE = 90
   MIN_BALANCE = 1
-  MIN_FARE = 5
+  MIN_FARE = 6
 
   def deduct(amount)
     @balance -= amount
