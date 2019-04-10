@@ -24,31 +24,41 @@ describe Oystercard do
     end
   end
 
-  describe '#touch_in' do
-    it "changes in_journey to true" do
-      card.top_up(2)
-      expect(card.touch_in("station")).to eq true
+  context "travelling" do
+    it "in_journey" do
+      card.top_up(20)
+      expect(card).not_to be_in_journey
     end
+    it "touch_in" do
+      card.top_up(20)
+      card.touch_in(entry_station)
+      expect(card).to be_in_journey
+    end
+    it "touch_out" do
+      card.top_up(20)
+      card.touch_out
+      expect(card).not_to be_in_journey
+    end
+  end
+
+  describe '#touch_in' do
     it "it raises an error when less than £1" do
       expect { card.touch_in("tation") }.to raise_error 'minimum balance required'
     end
     it "stores entry station" do
       card.top_up(2)
       card.touch_in(entry_station)
-      expect(card.entry_station).to include entry_station
+      expect(card.entry_station).to eq entry_station
     end
   end
 
   describe '#touch_out' do
-    it "changes in_journey to false" do
-      expect(card.touch_out).to eq false
-    end
     it 'deducts minimum balance' do
       minimum_fare = Oystercard::MINIMUM_FARE
       expect { card.touch_out }.to change { card.balance }.by(-minimum_fare)
     end
     it "resets entry station to nil" do
-      expect(card.entry_station).to eq []
+      expect(card.entry_station).to eq nil
     end
 
   end
