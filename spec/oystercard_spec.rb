@@ -37,6 +37,7 @@ describe Oystercard do
     end
     it "touch_out" do
       card.top_up(20)
+      card.touch_in(entry_station)
       card.touch_out(exit_station)
       expect(card).not_to be_in_journey
     end
@@ -56,6 +57,8 @@ describe Oystercard do
   describe '#touch_out' do
     it 'deducts minimum balance' do
       minimum_fare = Oystercard::MIN_FARE
+      card.top_up(20)
+      card.touch_in(entry_station)
       expect { card.touch_out(exit_station) }.to change { card.balance }.by(-minimum_fare)
     end
     it "resets entry station to nil" do
